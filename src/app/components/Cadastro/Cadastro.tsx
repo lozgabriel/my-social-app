@@ -20,6 +20,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onRegister }) => {
   });
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  const [sucesso, setSucesso] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -59,12 +60,33 @@ const Cadastro: React.FC<CadastroProps> = ({ onRegister }) => {
     }
 
     try {
-      // Simulação de cadastro. Troque por requisição real quando necessário.
-      if (onRegister) {
-        onRegister({ name: form.name, email: form.email });
+      const response = await fetch("api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          senha: form.senha,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErro(data.error || "Erro ao cadastrar usuário");
+        setSucesso(null);
+      } else {
+        if (onRegister) {
+          onRegister({ name: form.name, email: form.email });
+        }
+        setSucesso("Cadastro realizado com sucesso!");
+        setForm({
+          name: "",
+          email: "",
+          senha: "",
+          confirmarSenha: "",
+        });
       }
-      // Se quiser limpar os campos após cadastro:
-      // setForm({ name: "", email: "", senha: "", confirmarSenha: "" });
     } catch {
       setErro("Erro ao cadastrar usuário");
     } finally {
@@ -74,6 +96,11 @@ const Cadastro: React.FC<CadastroProps> = ({ onRegister }) => {
 
   return (
     <div className="flex items-center justify-center">
+      {sucesso && (
+        <div className="text-green-600 mb-4 text-sm text-center" role="status">
+          {sucesso}
+        </div>
+      )}
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-xl shadow-lg min-w-[320px] flex flex-col"

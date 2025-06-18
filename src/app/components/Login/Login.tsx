@@ -44,14 +44,24 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
 
     try {
-      // Simulação de autenticação
-      if (form.email === "admin@email.com" && form.senha === "123456") {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setErro(data.error || "Usuário ou senha inválidos");
+      } else {
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+        }
         if (onLogin) {
           onLogin({ email: form.email });
         }
-      } else {
-        setErro("Usuário ou senha inválidos");
       }
+      
+      
     } catch {
       setErro("Erro ao fazer login");
     } finally {
