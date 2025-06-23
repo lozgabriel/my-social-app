@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from "react";
 
-import Login from "./components/Login/Login";
-import Cadastro from "./components/Cadastro/Cadastro";
+import Login from "@/app/login/page";
+import Cadastro from "@/app/cadastro/page";
 
 export default function Home() {
   const [showCadastro, setShowCadastro] = useState(false);
@@ -23,7 +23,7 @@ export default function Home() {
             <p className="mt-4 text-center text-sm">
               Já tem uma conta?{" "}
               <button
-                className="text-blue-600 hover:underline"
+                className="text-blue-600 cursor-pointer hover:underline"
                 onClick={() => setShowCadastro(false)}
               >
                 Faça login
@@ -36,7 +36,7 @@ export default function Home() {
             <p className="mt-4 text-center text-sm">
               Ainda não tem conta?{" "}
               <button
-                className="text-blue-600 hover:underline"
+                className="text-blue-600 cursor-pointer hover:underline"
                 onClick={() => setShowCadastro(true)}
               >
                 Cadastre-se

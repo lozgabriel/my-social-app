@@ -60,7 +60,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onRegister }) => {
     }
 
     try {
-      const response = await fetch("api/auth/register", {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -121,7 +121,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onRegister }) => {
           autoComplete="name"
           value={form.name}
           onChange={handleChange}
-          className="mb-4 px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          className="mb-4 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           required
         />
 
@@ -136,7 +136,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onRegister }) => {
           autoComplete="email"
           value={form.email}
           onChange={handleChange}
-          className="mb-4 px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          className="mb-4 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           required
         />
 
@@ -151,7 +151,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onRegister }) => {
           autoComplete="new-password"
           value={form.senha}
           onChange={handleChange}
-          className="mb-4 px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          className="mb-4 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           required
         />
 

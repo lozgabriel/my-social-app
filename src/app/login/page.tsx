@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { validateEmail } from "../../utils/validateEmail";
 
 export interface LoginFormValues {
   email: string;
@@ -37,7 +38,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       return;
     }
     // Validação de e-mail simples
-    if (!/\S+@\S+\.\S+/.test(form.email)) {
+    if (!validateEmail(form.email)) {
       setErro("Email inválido");
       setLoading(false);
       return;
@@ -51,7 +52,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       });
       const data = await response.json();
       if (!response.ok) {
-        setErro(data.error || "Usuário ou senha inválidos");
+        setErro(data?.error ?? "Usuário ou senha inválidos");
       } else {
         if (data.token) {
           localStorage.setItem("token", data.token);
@@ -119,7 +120,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-3 rounded-md font-semibold bg-blue-600 text-white hover:bg-blue-700 transition ${
+          className={`w-full py-3 rounded-md font-semibold bg-blue-600 text-white cursor-pointer hover:bg-blue-700 transition ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
