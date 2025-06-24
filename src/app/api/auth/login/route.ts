@@ -5,15 +5,28 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const SECRET = process.env.JWT_SECRET || "segredo-super-seguro";
+const SECRET = process.env.JWT_SECRET;
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const { email, senha } = body;
-
-  if (!email || !senha) {
+  if (!SECRET) {
     return NextResponse.json(
-      { error: "Preencha todos os campos" },
+      { error: "Configuração do servidor ausente." },
+      { status: 500 }
+    );
+  }
+  const body = await request.json();
+  const { email, senha }: { email?: string; senha?: string } = body;
+
+  if (typeof email !== "string" || typeof senha !== "string") {
+    return NextResponse.json(
+      { error: "Dados inválidos" },
+      { status: 400 }
+    );
+  }
+
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    return NextResponse.json(
+      { error: "Email inválido" },
       { status: 400 }
     );
   }
@@ -51,23 +64,32 @@ export async function POST(request: NextRequest) {
       { expiresIn: "7d" }
     );
 
-    // (Opcional) Retornar token JWT aqui, se desejar implementar sessões
-    // Neste exemplo, retorna só os dados essenciais do usuário
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         message: "Login realizado com sucesso",
-        token,
         user: {
           id: user.id,
           name: user.name,
           email: user.email,
-          // nunca envie a senha!
         },
       },
       { status: 200 }
     );
+
+    // 🎯 Definir cookie no response
+    response.cookies.set({
+      name: "token",
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 7 dias
+    });
+
+    return response;
   } catch (error) {
-    console.error("Erro ao fazer login:", error);
+    console.error("Erro no login:", error);
     return NextResponse.json(
       { error: "Erro ao fazer login" },
       { status: 500 }

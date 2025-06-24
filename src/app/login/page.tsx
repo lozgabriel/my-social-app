@@ -54,9 +54,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       if (!response.ok) {
         setErro(data?.error ?? "Usuário ou senha inválidos");
       } else {
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-        }
         if (onLogin) {
           onLogin({ email: form.email });
         }

@@ -1,18 +1,20 @@
 'use client'
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Login from "@/app/login/page";
 import Cadastro from "@/app/cadastro/page";
 
 export default function Home() {
+  const router = useRouter();
   const [showCadastro, setShowCadastro] = useState(false);
 
   const handleRegister = (user: { name: string; email: string }) => {
     alert(`Usuário cadastrado: ${user.name} (${user.email})`);
     setShowCadastro(false);
   };
-  const handleLogin = (user: { email: string }) => {
-    alert(`Usuário logado: ${user.email}`);
+  const handleLogin = () => {
+    router.push("/dashboard");
   };
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-50 to-blue-100">
