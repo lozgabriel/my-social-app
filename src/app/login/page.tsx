@@ -44,7 +44,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       return;
     }
 
-    try {
+  try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -57,9 +57,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         if (onLogin) {
           onLogin({ email: form.email });
         }
-      }
-      
-      
+      } 
     } catch {
       setErro("Erro ao fazer login");
     } finally {

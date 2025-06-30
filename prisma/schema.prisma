@@ -13,6 +13,7 @@ model User {
   email     String   @unique
   senha     String
   image     String?  // avatar
+  bio       String?
   posts     Post[]   // relação com posts
 }
 

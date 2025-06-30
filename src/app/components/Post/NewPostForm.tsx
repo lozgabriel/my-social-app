@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 
 type Props = {
-  onSuccess?: () => void; // callback para atualizar o feed após post
+  onSuccess?: () => void;
 };
 
 export default function NewPostForm({ onSuccess }: Props) {
@@ -51,10 +51,10 @@ export default function NewPostForm({ onSuccess }: Props) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-2xl shadow p-4 flex flex-col gap-3 mb-6"
+      className="w-full bg-white rounded-2xl shadow p-4 flex flex-col gap-3 mb-6"
     >
       <textarea
-        className="w-full border rounded-xl p-2 resize-none"
+        className="w-full border border-gray-300 rounded-xl p-2 resize-none"
         placeholder="O que você está pensando?"
         rows={3}
         value={content}

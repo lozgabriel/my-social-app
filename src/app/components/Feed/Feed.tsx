@@ -18,7 +18,7 @@ const Feed: React.FC = () => {
   if (posts.length === 0) return <FeedEmpty />;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4">
       {posts.map((post) => (
         <FeedItem key={post.id} post={post} />
       ))}
